@@ -16,6 +16,8 @@ export default defineComponent({
       inject('$api')['user/info']({
           a: 123
       })
+      // 注入变量
+      console.log(inject('$const')['OTHER/MENU']);
   },
 })
 </script>

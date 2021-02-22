@@ -5,17 +5,16 @@ import { CONST_DEFAULT_CONFIG } from "/src/config/index";
 class MakeConst {
     constructor(options) {
         this.const = {}
-        this.constBuilder(options)
-    }
+        let { sep, config } = options;
 
-
-    constBuilder({
-    	sep = '/',
-    	config = []
-    }) {
-    	Object.keys(config).map(namespace => {
-    		this._constSingleBuilder({namespace, sep, config: config[namespace]})
-    	})
+        config.forEach((e) => {
+          this._constSingleBuilder({
+            namespace: e.__fileName__,
+            sep,
+            config: e,
+          });
+        });
+        return this.const
     }
 
     _constSingleBuilder({
@@ -23,19 +22,21 @@ class MakeConst {
     	sep = '/',
     	config = {}
     }) {
-        config.forEach( cst => {
-            let {name, value} = cst
-            let constName = `${namespace.toUpperCase()}${sep}${name}`
-            Object.defineProperty(this.const, constName, { value })            
-        })
+        let { name, value } = config;
+        // 变量强制全部大写
+        let constName = `${namespace.toUpperCase()}${sep}${name}`
+        Object.defineProperty(this.const, constName, { value })            
         
     }
 }
 
-const modules = getModules(import.meta.globEager("../service/const/**/*.js"));
+const modules = getModules(
+  import.meta.globEager("../service/const/**/*.js"),
+  true
+);
 
 export default new MakeConst({
-  config: [ modules ],
+  config: modules,
   ...CONST_DEFAULT_CONFIG,
 });
 

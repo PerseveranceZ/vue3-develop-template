@@ -63,7 +63,11 @@ function _normoalize(options, data) {
 } 
 
 
-const modules = getModules(import.meta.globEager("../service/api/**/*.js"), true)
+const modules = getModules(
+    import.meta.globEager("../service/api/**/*.js"),
+    true
+)
+
 export default new MakeApi({
   config: modules,
   ...API_DEFAULT_CONFIG,
