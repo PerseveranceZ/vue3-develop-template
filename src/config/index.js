@@ -24,17 +24,6 @@ export const VUEX_DEFAULT_CONFIG = {
   strict: process.env.NODE_ENV !== "production",
 };
 
-// API 默认配置
-export const API_DEFAULT_CONFIG = {
-  debug: false,
-  sep: "/",
-};
-
-// CONST 默认配置
-export const CONST_DEFAULT_CONFIG = {
-  sep: "/",
-};
-
 // 还有一些业务相关的配置
 // ...
 

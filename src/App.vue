@@ -12,12 +12,16 @@ export default defineComponent({
       HelloWorld
   },
   created() {
-      // 直接使用inject $api 请求
-      inject('$api')['user/info']({
+      // 直接使用 inject $api $const 拿到方法和变量
+      const { otherUserInfo } = inject('$api');
+      console.log(inject('$const'))
+      const { OTHER_MENU } = inject('$const');
+
+      otherUserInfo({
           a: 123
       })
-      // 注入变量
-      console.log(inject('$const')['OTHER/MENU']);
+
+      console.log(OTHER_MENU);
   },
 })
 </script>

@@ -1,7 +1,6 @@
 import axios from './axios'
-import { assert, getModules } from "/src/utils/tools";
+import { assert, getModules, firstUpperCase } from "/src/utils/tools";
 import { pick, assign, isEmpty } from 'lodash-es'
-import { API_DEFAULT_CONFIG } from '/src/config/index'
 
 class MakeApi {
     constructor(options) {
@@ -20,7 +19,7 @@ class MakeApi {
 
     _apiSingleBuilder({
     	namespace, 
-    	sep = '|',
+    	sep = '',
     	config = {},
     	debug = false,
     }) {
@@ -36,20 +35,24 @@ class MakeApi {
                 `${path} :接口路径path，首字符应为/`
             )
         }
-
-        Object.defineProperty(this.api, `${namespace}${sep}${name}`, {
-            value(outerParams, outerOptions) {
-                const _data = isEmpty(outerParams) ? params : pick(assign({}, params, outerParams), Object.keys(params))
-                const _options = { 
-                    url: path, 
-                    desc,
-                    method
-                }
-                return axios(_normoalize(
-                    assign( _options, outerOptions ), _data)
-                )
-            }
-        })      
+        // 默认 sep 没有就驼峰
+        const apiName = sep ? 
+        `${namespace}${sep}${name}` :
+        namespace + firstUpperCase(name)
+        
+        Object.defineProperty(this.api, apiName, {
+          value(outerParams, outerOptions) {
+            const _data = isEmpty(outerParams)
+              ? params
+              : pick(assign({}, params, outerParams), Object.keys(params));
+            const _options = {
+              url: path,
+              desc,
+              method,
+            };
+            return axios(_normoalize(assign(_options, outerOptions), _data));
+          },
+        });      
     }       
 }
 
@@ -69,6 +72,5 @@ const modules = getModules(
 )
 
 export default new MakeApi({
-  config: modules,
-  ...API_DEFAULT_CONFIG,
+  config: modules
 });

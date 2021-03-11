@@ -48,3 +48,7 @@ export function getModules(origin, withFileName = false) {
     }
     return modules
 }
+
+export function firstUpperCase(str) {
+    return str.replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}

@@ -1,5 +1,5 @@
 export default [{
-    name: 'userinfo',
+    name: 'userInfo',
     method: 'GET',
     desc: '测试服务处',
     path: '/tomato/common/showAllGroup',
