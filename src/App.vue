@@ -13,15 +13,14 @@ export default defineComponent({
   },
   created() {
       // 直接使用 inject $api $const 拿到方法和变量
-      const { otherUserInfo } = inject('$api');
-      console.log(inject('$const'))
-      const { OTHER_MENU } = inject('$const');
+      const $api = inject('$api') as any;
+      const $const = inject('$const') as any;
 
-      otherUserInfo({
+      $api.other.userInfo({
           a: 123
       })
 
-      console.log(OTHER_MENU);
+      console.log($const.other.MENU);
   },
 })
 </script>

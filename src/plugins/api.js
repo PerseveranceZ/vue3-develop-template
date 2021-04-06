@@ -5,11 +5,10 @@ import { pick, assign, isEmpty } from 'lodash-es'
 class MakeApi {
     constructor(options) {
         this.api = {}
-        let { sep, config, debug} = options;
+        let { config, debug} = options;
         config.forEach((e) => {
             this._apiSingleBuilder({
                 namespace: e.__fileName__,
-                sep,
                 debug,
                 config: e,
             });
@@ -19,11 +18,13 @@ class MakeApi {
 
     _apiSingleBuilder({
     	namespace, 
-    	sep = '',
     	config = {},
     	debug = false,
     }) {
         const {name, desc, params, method, mockEnable, path, mockPath } = config
+        if (!this.api[namespace]) {
+            this.api[namespace] = {};
+        }
 
         if (debug) {
             assert(
@@ -35,12 +36,8 @@ class MakeApi {
                 `${path} :接口路径path，首字符应为/`
             )
         }
-        // 默认 sep 没有就驼峰
-        const apiName = sep ? 
-        `${namespace}${sep}${name}` :
-        namespace + firstUpperCase(name)
-        
-        Object.defineProperty(this.api, apiName, {
+
+        Object.defineProperty(this.api[namespace], name, {
           value(outerParams, outerOptions) {
             const _data = isEmpty(outerParams)
               ? params

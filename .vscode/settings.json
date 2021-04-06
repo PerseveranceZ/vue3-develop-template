@@ -1,0 +1,10 @@
+{
+    "vetur.validation.script": false,
+    "vetur.validation.interpolation": false,
+    "vuedx.suggest.completeJSDocs": false,
+    "vuedx.telemetry": false,
+    "vuedx.suggest.enabled": false,
+    "vuedx.implementationsCodeLens.enabled": false,
+    "vuedx.referencesCodeLens.enabled": false,
+    "vuedx.format.enable": false
+}

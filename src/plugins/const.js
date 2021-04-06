@@ -2,31 +2,34 @@ import { assert, getModules } from '/src/utils/tools'
 import { pick, assign, isEmpty } from "lodash-es";
 
 class MakeConst {
-    constructor(options) {
-        this.const = {}
-        let { sep, config } = options;
+  constructor(options) {
+    this.const = {};
+    let { config, isUpperCase = true } = options;
 
-        config.forEach((e) => {
-          this._constSingleBuilder({
-            namespace: e.__fileName__,
-            sep,
-            config: e,
-          });
-        });
-        return this.const
+    config.forEach((e) => {
+      this._constSingleBuilder({
+        namespace: e.__fileName__,
+        isUpperCase,
+        config: e,
+      });
+    });
+    return this.const;
+  }
+
+  _constSingleBuilder({ namespace, config = {}, isUpperCase = true }) {
+    if (!this.api[namespace]) {
+      this.api[namespace] = {};
     }
 
-    _constSingleBuilder({
-    	namespace, 
-    	sep = '_',
-    	config = {}
-    }) {
-        let { name, value } = config;
-        // 变量强制全部大写
-        let constName = `${namespace.toUpperCase()}${sep}${name.toUpperCase()}`;
-        Object.defineProperty(this.const, constName, { value })            
-        
-    }
+    let { name, value } = config;
+    Object.defineProperty(
+      this.api[namespace],
+      isUpperCase ? name.toUpperCase() : name,
+      {
+        value,
+      }
+    );
+  }
 }
 
 const modules = getModules(
