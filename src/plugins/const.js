@@ -17,13 +17,13 @@ class MakeConst {
   }
 
   _constSingleBuilder({ namespace, config = {}, isUpperCase = true }) {
-    if (!this.api[namespace]) {
-      this.api[namespace] = {};
+    if (!this.const[namespace]) {
+      this.const[namespace] = {};
     }
 
     let { name, value } = config;
     Object.defineProperty(
-      this.api[namespace],
+      this.const[namespace],
       isUpperCase ? name.toUpperCase() : name,
       {
         value,
