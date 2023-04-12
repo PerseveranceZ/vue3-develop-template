@@ -23,7 +23,6 @@ window.$axios = Axios;
 app.use(Router)
 app.use(Store);
 
-console.log(Api);
 // 注册 this
 app.provide("$api", Api)
 app.provide("$axios", Axios);
